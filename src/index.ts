@@ -58,6 +58,7 @@ const createGenerator: CodegenGeneratorConstructor = (config, context) => {
 		await emit('validation', path.join(outputPath, relativeSourceOutputPath, 'validation.ts'), { ...rootContext, ...doc }, true, hbs)
 		await emit('index', path.join(outputPath, relativeSourceOutputPath, 'index.ts'), { ...rootContext, ...doc }, true, hbs)
 		await emit('indexTypes', path.join(outputPath, relativeSourceOutputPath, 'types.ts'), { ...rootContext, ...doc }, true, hbs)
+		await emit('errors', path.join(outputPath, relativeSourceOutputPath, 'errors.ts'), { ...rootContext, ...doc }, true, hbs)
 	}
 
 	const base = typescriptGenerator(config, myContext)
