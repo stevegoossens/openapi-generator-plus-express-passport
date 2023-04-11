@@ -1,0 +1,63 @@
+{{>header}}
+
+/**
+ * HTTP Status error class
+ */
+export class HttpStatusError extends Error {
+  headers?: Record<string, string>;
+  statusCode?: number;
+
+  /**
+   * 
+   * @param message Error message
+   * @param statusCode HTTP Status code
+   * @param headers HTTP response headers
+   */
+  constructor(message: string, statusCode?: number, headers?: Record<string, string>) {
+    super(message);
+    this.name = 'HttpStatusError';
+    this.statusCode = statusCode;
+    this.headers = headers;
+  }
+
+  /**
+   * Provides a HttpStatusError for
+   * - a HttpStatusError
+   * - a regular Error
+   * - a string-only throw
+   * 
+   * This allows a unified/consistent HttpStatusError to be passed to a
+   * single error handler in Express
+   * 
+   * @param error 
+   * @param statusCode 
+   * @returns 
+   */
+  public static for(
+    error: HttpStatusError | Error | string | unknown,
+    statusCode?: number
+  ): HttpStatusError {
+    if (error instanceof HttpStatusError) {
+      return error
+    } else if (error instanceof Error) {
+      return new HttpStatusError(error.message, statusCode)
+    } else if (typeof(error) === 'string') {
+      return new HttpStatusError(error, statusCode)
+    } else {
+      return new HttpStatusError('Internal Server Error', 500)
+    }
+  }
+
+  public static unauthorized(): HttpStatusError {
+    return new HttpStatusError(
+      'Unauthorized',
+      401,
+      {
+        'Access-Control-Allow-Headers':
+          'Content-Type, Authorization, Accept, X-Requested-With',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, LOGIN, DELETE',
+        'Access-Control-Allow-Origin': '*'
+      }
+    )
+  }
+}

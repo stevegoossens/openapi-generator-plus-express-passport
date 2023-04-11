@@ -1,5 +1,14 @@
 # @openapi-generator-plus/typescript-express-passport-server-generator
 
+## 2.7.0
+
+### Minor Changes
+
+- 249dd97: keep header name same as in OpenAPI spec file
+- fe7348c: pass HttpStatusError to next (NextFunction)
+- efd94c7: throw HttpStatusError 501 for stubbed functions
+- 242910e: change npm & github orgs, increment minor version
+
 ## 2.6.0
 
 ### Minor Changes
